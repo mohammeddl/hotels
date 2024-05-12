@@ -17,12 +17,16 @@ import {
   Table,
 } from "@/components/ui/table";
 import RoomModal from "./RoomModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Stats() {
 
-
   const [isOpen, setIsOpen] = useState<Boolean>(false);
+
+
+useEffect(()=>{
+  console.log(isOpen)
+},[isOpen])
 
 
   return (
@@ -108,9 +112,10 @@ export default function Stats() {
               <CardTitle>Rooms</CardTitle>
               <Button size='icon' variant='outline'>
                 <PlusIcon   className='w-6 h-6' />
-                <span onClick={() => setIsOpen(true)} className='sr-only'>Add Room</span>
+                <span onClick={()=>setIsOpen(true)} className='sr-only'>Add Room</span>
               </Button>
             </CardHeader>
+              
             <CardContent>
               <Table>
                 <TableHeader>
@@ -176,7 +181,7 @@ export default function Stats() {
             </CardContent>
           </Card>
         </div>
-        <RoomModal isOpen={isOpen} closeModel={() => {}} />
+        <RoomModal isOpen={isOpen} closeModel={()=> {setIsOpen(false)} }/>
       </div>
     </div>
   );
