@@ -111,8 +111,8 @@ useEffect(()=>{
             <CardHeader className='flex items-center justify-between'>
               <CardTitle>Rooms</CardTitle>
               <Button size='icon' variant='outline'>
-                <PlusIcon   className='w-6 h-6' />
-                <span onClick={()=>setIsOpen(true)} className='sr-only'>Add Room</span>
+                <PlusIcon onClick={()=>setIsOpen(true)}  className='w-6 h-6' />
+                <span  className='sr-only'>Add Room</span>
               </Button>
             </CardHeader>
               

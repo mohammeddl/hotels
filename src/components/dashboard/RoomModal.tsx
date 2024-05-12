@@ -10,19 +10,16 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
-
-export default function RoomModal({isOpen, closeModel}) {
-console.log(isOpen)
+export default function RoomModal({ isOpen, closeModel }) {
+  console.log(isOpen);
 
   if (!isOpen) return null;
-
 
   return (
     <>
       <div className='fixed inset-0 flex items-center justify-center z-50'>
-        
-        <div className='absolute -top-8 inset-0 bg-black opacity-50'>
-          {/* onClick={closeModel()} */}
+        <div className='absolute -top-8 inset-0 bg-black opacity-50'onClick={closeModel}>
+          
         </div>
         <div className='max-h-[90%]   rounded-lg z-50 w-1/2'>
           <div className='mt-8'>
