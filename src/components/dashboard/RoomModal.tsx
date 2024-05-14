@@ -1,6 +1,14 @@
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Select } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Card,
   CardContent,
@@ -9,6 +17,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 export default function RoomModal({ isOpen, closeModel }) {
   console.log(isOpen);
@@ -34,11 +43,17 @@ export default function RoomModal({ isOpen, closeModel }) {
                     <Input id='room-number' type='number' />
                   </div>
                   <div className='space-y-2'>
-                    <Label htmlFor='room-type'>Room Type</Label>
-                    <Select id='room-type'>
-                      <option value='standard'>Standard</option>
-                      <option value='deluxe'>Deluxe</option>
-                      <option value='suite'>Suite</option>
+                    <Select>
+                      <SelectTrigger className='w-[180px]'>
+                        <SelectValue placeholder='Select type' />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectLabel>Room Type</SelectLabel>
+                          <SelectItem value='Standard'>Standard</SelectItem>
+                          <SelectItem value='Deluxe'>Deluxe</SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
                     </Select>
                   </div>
                   <div className='space-y-2'>
@@ -46,11 +61,58 @@ export default function RoomModal({ isOpen, closeModel }) {
                     <Input id='room-price' type='number' />
                   </div>
                   <div className='space-y-2'>
-                    <Label htmlFor='room-availability'>Availability</Label>
-                    <Select id='room-availability'>
-                      <option value='available'>Available</option>
-                      <option value='booked'>Booked</option>
+                    <Select>
+                      <SelectTrigger className='w-[180px]'>
+                        <SelectValue placeholder='Select for Availability' />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectLabel>Availability</SelectLabel>
+                          <SelectItem value='Booked'>Booked</SelectItem>
+                          <SelectItem value='available'>available</SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
                     </Select>
+                  </div>
+                  <div className='col-span-2 space-y-2'>
+                    <Label htmlFor='room-images'>Room Images</Label>
+                  <Input id="room-images" multiple type="file" />
+                    <div className='flex gap-2'>
+                      <Image
+                        alt='Room Image'
+                        className='rounded-md object-cover'
+                        height={128}
+                        src='/placeholder.svg'
+                        style={{
+                          aspectRatio: "128/128",
+                          objectFit: "cover",
+                        }}
+                        width={128}
+                      />
+                      <Image
+                        alt='Room Image'
+                        className='rounded-md object-cover'
+                        height={128}
+                        src='/placeholder.svg'
+                        style={{
+                          aspectRatio: "128/128",
+                          objectFit: "cover",
+                        }}
+                        width={128}
+                      />
+                      <Image
+                        alt='Room Image'
+                        className='rounded-md object-cover'
+                        height={128}
+                        src='/placeholder.svg'
+                        style={{
+                          aspectRatio: "128/128",
+                          objectFit: "cover",
+                        }}
+                        width={128}
+                      />
+                      {/* <Input id="room-images" multiple type="file" /> */}
+                    </div>
                   </div>
                 </form>
               </CardContent>
