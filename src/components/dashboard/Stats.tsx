@@ -20,14 +20,11 @@ import RoomModal from "./RoomModal";
 import { useEffect, useState } from "react";
 
 export default function Stats() {
-
   const [isOpen, setIsOpen] = useState<Boolean>(false);
 
-
-useEffect(()=>{
-  console.log(isOpen)
-},[isOpen])
-
+  useEffect(() => {
+    console.log(isOpen);
+  }, [isOpen]);
 
   return (
     <div className='flex-1 grid grid-cols-[240px_1fr] overflow-hidden'>
@@ -111,77 +108,76 @@ useEffect(()=>{
             <CardHeader className='flex items-center justify-between'>
               <CardTitle>Rooms</CardTitle>
               <Button size='icon' variant='outline'>
-                <PlusIcon onClick={()=>setIsOpen(true)}  className='w-6 h-6' />
-                <span  className='sr-only'>Add Room</span>
+                <PlusIcon onClick={() => setIsOpen(true)} className='w-6 h-6' />
+                <span className='sr-only'>Add Room</span>
               </Button>
             </CardHeader>
-              
             <CardContent>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Room #</TableHead>
-                    <TableHead>Type</TableHead>
-                    <TableHead>Price</TableHead>
-                    <TableHead>Availability</TableHead>
-                    <TableHead className='text-right'>Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  <TableRow>
-                    <TableCell>101</TableCell>
-                    <TableCell>Standard</TableCell>
-                    <TableCell>$150</TableCell>
-                    <TableCell>Available</TableCell>
-                    <TableCell className='text-right'>
-                      <Button size='icon' variant='ghost'>
-                        <DeleteIcon className='w-5 h-5' />
-                        <span className='sr-only'>Edit</span>
-                      </Button>
-                      <Button size='icon' variant='ghost'>
-                        <TrashIcon className='w-5 h-5' />
-                        <span className='sr-only'>Delete</span>
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>102</TableCell>
-                    <TableCell>Deluxe</TableCell>
-                    <TableCell>$250</TableCell>
-                    <TableCell>Booked</TableCell>
-                    <TableCell className='text-right'>
-                      <Button size='icon' variant='ghost'>
-                        <DeleteIcon className='w-5 h-5' />
-                        <span className='sr-only'>Edit</span>
-                      </Button>
-                      <Button size='icon' variant='ghost'>
-                        <TrashIcon className='w-5 h-5' />
-                        <span className='sr-only'>Delete</span>
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>103</TableCell>
-                    <TableCell>Suite</TableCell>
-                    <TableCell>$350</TableCell>
-                    <TableCell>Available</TableCell>
-                    <TableCell className='text-right'>
-                      <Button size='icon' variant='ghost'>
-                        <DeleteIcon className='w-5 h-5' />
-                        <span className='sr-only'>Edit</span>
-                      </Button>
-                      <Button size='icon' variant='ghost'>
-                        <TrashIcon className='w-5 h-5' />
-                        <span className='sr-only'>Delete</span>
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </CardContent>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Room #</TableHead>
+                      <TableHead>Type</TableHead>
+                      <TableHead>Price</TableHead>
+                      <TableHead>Availability</TableHead>
+                      <TableHead>Images</TableHead>
+                      <TableHead className="text-right">Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell>101</TableCell>
+                      <TableCell>Standard</TableCell>
+                      <TableCell>$150</TableCell>
+                      <TableCell>Available</TableCell>
+                      <TableCell>
+                        <div className="flex gap-2">
+                          <img
+                            alt="Room Image"
+                            className="rounded-md object-cover"
+                            height={64}
+                            src="/placeholder.svg"
+                            style={{
+                              aspectRatio: "64/64",
+                              objectFit: "cover",
+                            }}
+                            width={64}
+                          />
+                          <img
+                            alt="Room Image"
+                            className="rounded-md object-cover"
+                            height={64}
+                            src="/placeholder.svg"
+                            style={{
+                              aspectRatio: "64/64",
+                              objectFit: "cover",
+                            }}
+                            width={64}
+                          />
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <Button size="icon" variant="ghost">
+                          <DeleteIcon className="w-5 h-5" />
+                          <span className="sr-only">Edit</span>
+                        </Button>
+                        <Button size="icon" variant="ghost">
+                          <TrashIcon className="w-5 h-5" />
+                          <span className="sr-only">Delete</span>
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </CardContent>
           </Card>
         </div>
-        <RoomModal isOpen={isOpen} closeModel={()=> {setIsOpen(false)} }/>
+        <RoomModal
+          isOpen={isOpen}
+          closeModel={() => {
+            setIsOpen(false);
+          }}
+        />
       </div>
     </div>
   );
@@ -350,7 +346,7 @@ function SettingsIcon(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
-function TrashIcon(props) {
+function TrashIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
@@ -370,7 +366,7 @@ function TrashIcon(props) {
   );
 }
 
-function ViewIcon(props) {
+function ViewIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}

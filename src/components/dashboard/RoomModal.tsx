@@ -18,9 +18,9 @@ export default function RoomModal({ isOpen, closeModel }) {
   return (
     <>
       <div className='fixed inset-0 flex items-center justify-center z-50'>
-        <div className='absolute -top-8 inset-0 bg-black opacity-50'onClick={closeModel}>
-          
-        </div>
+        <div
+          className='absolute -top-8 inset-0 bg-black opacity-50'
+          onClick={closeModel}></div>
         <div className='max-h-[90%]   rounded-lg z-50 w-1/2'>
           <div className='mt-8'>
             <Card>
