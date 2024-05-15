@@ -61,6 +61,50 @@ export default function Stats() {
           </Card>
         </div>
       </div>
+      <div className="flex items-center gap-4">
+            <h1 className="font-semibold text-lg md:text-xl">Room Analytics</h1>
+            <div className="ml-auto flex items-center gap-2">
+              <Button className="hidden sm:flex" variant="outline">
+                Today
+              </Button>
+              <Button className="hidden md:flex" variant="outline">
+                This Month
+              </Button>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button className="w-[280px] justify-start text-left font-normal" id="date" variant="outline">
+                    <CalendarClockIcon className="mr-2 h-4 w-4" />
+                    June 01, 2023 - June 30, 2023
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent align="end" className="w-auto p-0">
+                  <Calendar initialFocus mode="range" numberOfMonths={2} />
+                </PopoverContent>
+              </Popover>
+            </div>
+          </div>
+          <div className="grid gap-6">
+            <div className="grid md:grid-cols-2 gap-6">
+              <Card className="flex flex-col">
+                <CardHeader>
+                  <CardDescription>Room Occupancy</CardDescription>
+                  <CardTitle>Occupancy Trends</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <LineChart className="aspect-[4/3]" />
+                </CardContent>
+              </Card>
+              <Card className="flex flex-col">
+                <CardHeader>
+                  <CardDescription>Room Revenue</CardDescription>
+                  <CardTitle>Revenue by Category</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <BarChart className="aspect-[4/3]" />
+                </CardContent>
+              </Card>
+            </div>
+          </div>
     </div>
   );
 }
