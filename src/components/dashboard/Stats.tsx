@@ -81,7 +81,7 @@ export default function Stats() {
                     June 01, 2023 - June 30, 2023
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent align="end" className="w-auto p-0">
+                <PopoverContent align="end" className=" w-auto p-0">
                   <Calendar initialFocus mode="range" numberOfMonths={2} />
                 </PopoverContent>
               </Popover>
