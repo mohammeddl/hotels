@@ -1,13 +1,23 @@
 "use client";
 import Link from "next/link";
-import { CardTitle, CardHeader, CardContent, Card, CardDescription } from "@/components/ui/card";
+import {
+  CardTitle,
+  CardHeader,
+  CardContent,
+  Card,
+  CardDescription,
+} from "@/components/ui/card";
 import SidBar from "./SidBar";
 import { Button } from "@/components/ui/button";
 
-import { PopoverTrigger, PopoverContent, Popover } from "@/components/ui/popover"
+import {
+  PopoverTrigger,
+  PopoverContent,
+  Popover,
+} from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
-import { ResponsiveLine } from "@nivo/line"
-import { ResponsiveBar } from "@nivo/bar"
+import { ResponsiveLine } from "@nivo/line";
+import { ResponsiveBar } from "@nivo/bar";
 
 export default function Stats() {
   return (
@@ -66,51 +76,34 @@ export default function Stats() {
             </CardContent>
           </Card>
         </div>
-      </div>
-      <div className="flex items-center gap-4">
-            <h1 className="font-semibold text-lg md:text-xl">Room Analytics</h1>
-            <div className="ml-auto flex items-center gap-2">
-              <Button className="hidden sm:flex" variant="outline">
-                Today
-              </Button>
-              <Button className="hidden md:flex" variant="outline">
-                This Month
-              </Button>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button className="w-[280px] justify-start text-left font-normal" id="date" variant="outline">
-                    <CalendarClockIcon className="mr-2 h-4 w-4" />
-                    June 01, 2023 - June 30, 2023
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent align="end" className=" w-auto p-0">
-                  <Calendar initialFocus mode="range" numberOfMonths={2} />
-                </PopoverContent>
-              </Popover>
-            </div>
+        <div className='py-8'>
+          <div className='flex items-center gap-4'>
+            <h1 className='font-semibold text-lg md:text-xl'>Room Analytics</h1>
           </div>
-          <div className="grid gap-6">
-            <div className="grid md:grid-cols-2 gap-6">
-              <Card className="flex flex-col">
+          <div className='grid gap-6'>
+            <div className='grid md:grid-cols-2 gap-6'>
+              <Card className='flex flex-col'>
                 <CardHeader>
                   <CardDescription>Room Occupancy</CardDescription>
                   <CardTitle>Occupancy Trends</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <LineChart className="aspect-[4/3]" />
+                  <LineChart className='aspect-[4/3]' />
                 </CardContent>
               </Card>
-              <Card className="flex flex-col">
+              <Card className='flex flex-col'>
                 <CardHeader>
                   <CardDescription>Room Revenue</CardDescription>
                   <CardTitle>Revenue by Category</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <BarChart className="aspect-[4/3]" />
+                  <BarChart className='aspect-[4/3]' />
                 </CardContent>
               </Card>
             </div>
           </div>
+        </div>
+      </div>
     </div>
   );
 }
@@ -212,7 +205,7 @@ function BarChart(props) {
           { name: "Jun", count: 72 },
         ]}
         keys={["count"]}
-        indexBy="name"
+        indexBy='name'
         margin={{ top: 0, right: 0, bottom: 40, left: 40 }}
         padding={0.3}
         colors={["#2563eb"]}
@@ -245,40 +238,35 @@ function BarChart(props) {
         }}
         tooltipLabel={({ id }) => `${id}`}
         enableLabel={false}
-        role="application"
-        ariaLabel="A bar chart showing data"
+        role='application'
+        ariaLabel='A bar chart showing data'
       />
     </div>
-  )
+  );
 }
-
 
 function CalendarClockIcon(props) {
   return (
     <svg
       {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M21 7.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3.5" />
-      <path d="M16 2v4" />
-      <path d="M8 2v4" />
-      <path d="M3 10h5" />
-      <path d="M17.5 17.5 16 16.3V14" />
-      <circle cx="16" cy="16" r="6" />
+      xmlns='http://www.w3.org/2000/svg'
+      width='24'
+      height='24'
+      viewBox='0 0 24 24'
+      fill='none'
+      stroke='currentColor'
+      strokeWidth='2'
+      strokeLinecap='round'
+      strokeLinejoin='round'>
+      <path d='M21 7.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3.5' />
+      <path d='M16 2v4' />
+      <path d='M8 2v4' />
+      <path d='M3 10h5' />
+      <path d='M17.5 17.5 16 16.3V14' />
+      <circle cx='16' cy='16' r='6' />
     </svg>
-  )
+  );
 }
-
-
-
 
 function LineChart(props) {
   return (
@@ -347,12 +335,8 @@ function LineChart(props) {
             },
           },
         }}
-        role="application"
+        role='application'
       />
     </div>
-  )
+  );
 }
-
-
-
-
