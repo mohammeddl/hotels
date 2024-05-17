@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 
 import { PopoverTrigger, PopoverContent, Popover } from "@/components/ui/popover"
 import { Calendar } from "@/components/ui/calendar";
+import { ResponsiveLine } from "@nivo/line"
+import { ResponsiveBar } from "@nivo/bar"
 
 export default function Stats() {
   return (
