@@ -12,9 +12,15 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
+import { useSelector } from "react-redux";
+
+
 
 export default function Login() {
+  
+
   return (
+    
     <div className='grid min-h-[100dvh] grid-cols-1 lg:grid-cols-2'>
       <div className='flex flex-col items-center justify-center bg-gray-100 p-8 dark:bg-gray-800 lg:p-12'>
         <div className='flex items-center space-x-2'>
@@ -74,10 +80,11 @@ export default function Login() {
         </Card>
       </div>
     </div>
+    
   );
 }
 
-function HotelIcon(props) {
+function HotelIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
