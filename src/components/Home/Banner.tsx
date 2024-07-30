@@ -1,6 +1,6 @@
 export default function Banner() {
   return (
-    <div className='bg-teal-500 py-16 px-4 md:px-8 lg:px-16 flex items-center justify-between'>
+    <div className='bg-teal-500 mx-20 mb-8 rounded-2xl  py-16 px-4 md:px-8 lg:px-16 flex items-center justify-between'>
       <div className='text-center max-w-sm'>
         <h1 className='text-3xl font-bold text-white'>
           Find and book your perfect stay

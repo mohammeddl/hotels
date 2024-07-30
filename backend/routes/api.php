@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\HotelController;
+use App\Http\Controllers\RoomController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -23,3 +25,9 @@ Route::post('/login', [UserController::class, 'login']);
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/logout', [UserController::class, 'logout']);
 
+
+Route::get('/rooms', [RoomController::class, 'index']);
+Route::post('/rooms', [RoomController::class, 'store']);
+Route::put('/rooms/{id}', [RoomController::class, 'update']);
+
+Route::get('/hotels', [HotelController::class, 'index']);

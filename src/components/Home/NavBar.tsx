@@ -1,4 +1,7 @@
 import Link from "next/link";
+import Image from 'next/image';
+
+import LogoHotel from "../../assets/logo.png";
 
 
 export default function NavBar() {
@@ -6,8 +9,7 @@ export default function NavBar() {
     <header className='bg-[#ffffff] rounded-b-xl shadow-md'>
       <nav className='container mx-auto flex h-16 items-center justify-between px-4 md:px-6'>
         <Link className='text-lg font-bold' href='#'>
-          <MountainIcon className='h-6 w-6' />
-          <span className='sr-only'>Acme Inc</span>
+        <Image src={LogoHotel} alt="Hotel Acme" width={80} height={20} />
         </Link>
         <div className='flex items-center gap-4'>
           <Link

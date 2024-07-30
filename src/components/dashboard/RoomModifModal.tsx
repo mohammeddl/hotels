@@ -21,28 +21,15 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import swal from 'sweetalert';
+import swal from "sweetalert";
 
-export default function RoomModal({ isOpen, closeModel }) {
+export default function RoomModifModal({ isModif, closeModel }) {
   const {
     register,
     handleSubmit,
     setValue,
     formState: { errors },
   } = useForm();
-
-  const [images, setImages] = useState([]);
-  const [imagePreviews, setImagePreviews] = useState([]);
-
-const emptyForm = ()  => {
-  setValue("room_number", "");
-  setValue("room_type", "");
-  setValue("price", "");
-  setValue("availability", "");
-  setValue("Hotels", "");
-  setImages([]);
-  setImagePreviews([]);
-}
 
   const onSubmit = async (data) => {
     const formData = new FormData();
@@ -57,21 +44,32 @@ const emptyForm = ()  => {
     });
 
     try {
-      const response = await axios.post("http://localhost:8000/api/rooms", formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
+      const response = await axios.post(
+        "http://localhost:8000/api/rooms",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         }
-      });
+      );
       console.log(response.data);
       swal("Good job!", "Room created successfully!", "success");
       closeModel();
-      emptyForm()
-      
     } catch (error) {
       console.error(error);
       swal("Error", "Failed to create room", "error");
     }
   };
+
+  const [images, setImages] = useState([]);
+  const [imagePreviews, setImagePreviews] = useState([]);
+    const [hotels, setHotels] = useState([]);
+
+    const getHotels = async () => {
+        const response = await axios.get("http://localhost:8000/api/hotels");
+        setHotels(response.data);
+      };
 
   const handleImageUpload = (e) => {
     const files = Array.from(e.target.files);
@@ -86,17 +84,12 @@ const emptyForm = ()  => {
     setImagePreviews((prevPreviews) => prevPreviews.filter((_, i) => i !== index));
   };
 
-  const [hotels, setHotels] = useState([]);
-  const getHotels = async () => {
-    const response = await axios.get("http://localhost:8000/api/hotels");
-    setHotels(response.data);
-  };
   useEffect(() => {
     getHotels();
   }, []);
 
-  if (!isOpen) return null;
 
+  if (!isModif) return null;
   return (
     <>
       <div className='fixed inset-0 flex items-center justify-center z-50'>
@@ -107,7 +100,7 @@ const emptyForm = ()  => {
           <div className='mt-8'>
             <Card>
               <CardHeader>
-                <CardTitle>Add New Room</CardTitle>
+                <CardTitle>Modify Room</CardTitle>
               </CardHeader>
               <CardContent>
                 <form

@@ -9,13 +9,41 @@ import {
 } from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import RoomModal from "../dashboard/RoomModal";
 import SidBar from "../dashboard/SidBar";
+import axios from "axios";
+import { leapfrog } from "ldrs";
+import RoomModifModal from "../dashboard/RoomModifModal";
+const IMAGE_BASE_URL = "http://localhost:8000/images/";
 
 export default function RoomForm() {
   const [isOpen, setIsOpen] = useState<Boolean>(false);
+  const [isModif, setIsModif] = useState<Boolean>(false);
+  const [rooms, setRooms] = useState([]);
+  const getRooms = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/api/rooms");
+      console.log(response.data);
+      setRooms(response.data.rooms);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getRooms();
+  }, []);
+
+  if (!rooms) {
+    return (
+      <div>
+        <l-leapfrog size='40' speed='2.5' color='black'></l-leapfrog>
+      </div>
+    );
+  }
+
   return (
     <>
       <div className='flex-1 grid grid-cols-[240px_1fr] overflow-hidden'>
@@ -44,48 +72,44 @@ export default function RoomForm() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  <TableRow>
-                    <TableCell>101</TableCell>
-                    <TableCell>Standard</TableCell>
-                    <TableCell>$150</TableCell>
-                    <TableCell>Available</TableCell>
-                    <TableCell>
-                      <div className='flex gap-2'>
-                        <Image
-                          alt='Room Image'
-                          className='rounded-md object-cover'
-                          height={64}
-                          src='/placeholder.svg'
-                          style={{
-                            aspectRatio: "64/64",
-                            objectFit: "cover",
-                          }}
-                          width={64}
-                        />
-                        <Image
-                          alt='Room Image'
-                          className='rounded-md object-cover'
-                          height={64}
-                          src='/placeholder.svg'
-                          style={{
-                            aspectRatio: "64/64",
-                            objectFit: "cover",
-                          }}
-                          width={64}
-                        />
-                      </div>
-                    </TableCell>
-                    <TableCell className='text-right'>
-                      <Button size='icon' variant='ghost'>
-                        <DeleteIcon className='w-5 h-5' />
-                        <span className='sr-only'>Edit</span>
-                      </Button>
-                      <Button size='icon' variant='ghost'>
-                        <TrashIcon className='w-5 h-5' />
-                        <span className='sr-only'>Delete</span>
-                      </Button>
-                    </TableCell>
-                  </TableRow>
+                  {rooms.map((room) => (
+                    <TableRow key={room.id}>
+                      <TableCell>{room.number}</TableCell>
+                      <TableCell>{room.room_type}</TableCell>
+                      <TableCell>{room.price + "$"}</TableCell>
+                      <TableCell>{room.status}</TableCell>
+                      <TableCell>
+                        <div className='flex gap-2'>
+                          {room.images.map((image) => (
+                            <Image
+                              key={image.id}
+                              alt='Room Image'
+                              className='rounded-md object-cover'
+                              height={64}
+                              src={`${IMAGE_BASE_URL}${image.image_room}`}
+                              style={{
+                                aspectRatio: "64/64",
+                                objectFit: "cover",
+                              }}
+                              width={64}
+                            />
+                          ))}
+                        </div>
+                      </TableCell>
+                      <TableCell className='text-right'>
+                        <Button size='icon' variant='ghost'>
+                          <DeleteIcon className='w-5 h-5' 
+                          onClick={()=>setIsModif(true)}
+                          />
+                          <span className='sr-only'>Edit</span>
+                        </Button>
+                        <Button size='icon' variant='ghost'>
+                          <TrashIcon className='w-5 h-5' />
+                          <span className='sr-only'>Delete</span>
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
                 </TableBody>
               </Table>
             </CardContent>
@@ -95,6 +119,12 @@ export default function RoomForm() {
           isOpen={isOpen}
           closeModel={() => {
             setIsOpen(false);
+          }}
+        />
+        <RoomModifModal
+          isModif={isModif}
+          closeModel={() => {
+            setIsModif(false);
           }}
         />
       </div>
