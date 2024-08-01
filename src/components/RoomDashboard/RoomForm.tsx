@@ -1,3 +1,12 @@
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setRooms } from "@/src/redux/slices/RoomSlice";
+import axios from "axios";
+import RoomModal from "../dashboard/RoomModal";
+import RoomModifModal from "../dashboard/RoomModifModal";
+import SidBar from "../dashboard/SidBar";
+import Swal from "sweetalert2";
+import { dotWave } from 'ldrs'
 import { Button } from "@/components/ui/button";
 import {
   TableHead,
@@ -9,37 +18,99 @@ import {
 } from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import RoomModal from "../dashboard/RoomModal";
-import SidBar from "../dashboard/SidBar";
-import axios from "axios";
-import { leapfrog } from "ldrs";
-import RoomModifModal from "../dashboard/RoomModifModal";
+import { DeleteIcon, PlusIcon, TrashIcon } from "lucide-react";
+
 const IMAGE_BASE_URL = "http://localhost:8000/images/";
 
 export default function RoomForm() {
-  const [isOpen, setIsOpen] = useState<Boolean>(false);
-  const [isModif, setIsModif] = useState<Boolean>(false);
-  const [rooms, setRooms] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isModif, setIsModif] = useState(false);
+  const [selectedRoom, setSelectedRoom] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+  const rooms = useSelector((state) => state.rooms.rooms);
+
+  console.log('rooms', rooms);
+  console.log('loading', loading);
+
   const getRooms = async () => {
     try {
       const response = await axios.get("http://localhost:8000/api/rooms");
-      console.log(response.data);
-      setRooms(response.data.rooms);
+      dispatch(setRooms(response.data.rooms));
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const deleteRoom = async (id) => {
+    try {
+      const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton: "btn btn-success",
+          cancelButton: "btn btn-danger",
+        },
+        buttonsStyling: false,
+      });
+
+      swalWithBootstrapButtons
+        .fire({
+          title: "Are you sure?",
+          text: "You won't be able to revert this!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Yes, delete it!",
+          cancelButtonText: "No, cancel!",
+          reverseButtons: true,
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            axios
+              .delete(`http://localhost:8000/api/rooms/${id}`)
+              .then((response) => {
+                console.log(response.data);
+                getRooms();
+                swalWithBootstrapButtons.fire({
+                  title: "Deleted!",
+                  text: "Your file has been deleted.",
+                  icon: "success",
+                });
+              })
+              .catch((error) => {
+                console.log(error);
+                swalWithBootstrapButtons.fire({
+                  title: "Error!",
+                  text: "There was a problem deleting the room.",
+                  icon: "error",
+                });
+              });
+          } else if (result.dismiss === Swal.DismissReason.cancel) {
+            swalWithBootstrapButtons.fire({
+              title: "Cancelled",
+              text: "Your imaginary file is safe :)",
+              icon: "error",
+            });
+          }
+        });
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const openModifModal = (room) => {
+    setSelectedRoom(room);
+    setIsModif(true);
   };
 
   useEffect(() => {
     getRooms();
   }, []);
 
-  if (!rooms) {
+  if (loading) {
     return (
       <div>
-        <l-leapfrog size='40' speed='2.5' color='black'></l-leapfrog>
+        <l-dot-wave size='47' speed='1' color='black'></l-dot-wave>
       </div>
     );
   }
@@ -98,13 +169,17 @@ export default function RoomForm() {
                       </TableCell>
                       <TableCell className='text-right'>
                         <Button size='icon' variant='ghost'>
-                          <DeleteIcon className='w-5 h-5' 
-                          onClick={()=>setIsModif(true)}
+                          <DeleteIcon
+                            className='w-5 h-5'
+                            onClick={() => openModifModal(room)}
                           />
                           <span className='sr-only'>Edit</span>
                         </Button>
                         <Button size='icon' variant='ghost'>
-                          <TrashIcon className='w-5 h-5' />
+                          <TrashIcon
+                            className='w-5 h-5'
+                            onClick={() => deleteRoom(room.id)}
+                          />
                           <span className='sr-only'>Delete</span>
                         </Button>
                       </TableCell>
@@ -126,67 +201,9 @@ export default function RoomForm() {
           closeModel={() => {
             setIsModif(false);
           }}
+          room={selectedRoom}
         />
       </div>
     </>
-  );
-}
-
-function TrashIcon(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      {...props}
-      xmlns='http://www.w3.org/2000/svg'
-      width='24'
-      height='24'
-      viewBox='0 0 24 24'
-      fill='none'
-      stroke='currentColor'
-      strokeWidth='2'
-      strokeLinecap='round'
-      strokeLinejoin='round'>
-      <path d='M3 6h18' />
-      <path d='M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6' />
-      <path d='M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2' />
-    </svg>
-  );
-}
-
-function PlusIcon(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      {...props}
-      xmlns='http://www.w3.org/2000/svg'
-      width='24'
-      height='24'
-      viewBox='0 0 24 24'
-      fill='none'
-      stroke='currentColor'
-      strokeWidth='2'
-      strokeLinecap='round'
-      strokeLinejoin='round'>
-      <path d='M5 12h14' />
-      <path d='M12 5v14' />
-    </svg>
-  );
-}
-
-function DeleteIcon(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      {...props}
-      xmlns='http://www.w3.org/2000/svg'
-      width='24'
-      height='24'
-      viewBox='0 0 24 24'
-      fill='none'
-      stroke='currentColor'
-      strokeWidth='2'
-      strokeLinecap='round'
-      strokeLinejoin='round'>
-      <path d='M20 5H9l-7 7 7 7h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Z' />
-      <line x1='18' x2='12' y1='9' y2='15' />
-      <line x1='12' x2='18' y1='9' y2='15' />
-    </svg>
   );
 }

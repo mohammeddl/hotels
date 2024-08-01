@@ -21,7 +21,9 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import swal from 'sweetalert';
+import swal from "sweetalert";
+import { useDispatch } from "react-redux";
+import { addRoom } from "@/src/redux/slices/RoomSlice";
 
 export default function RoomModal({ isOpen, closeModel }) {
   const {
@@ -34,15 +36,17 @@ export default function RoomModal({ isOpen, closeModel }) {
   const [images, setImages] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
 
-const emptyForm = ()  => {
-  setValue("room_number", "");
-  setValue("room_type", "");
-  setValue("price", "");
-  setValue("availability", "");
-  setValue("Hotels", "");
-  setImages([]);
-  setImagePreviews([]);
-}
+  const emptyForm = () => {
+    setValue("room_number", "");
+    setValue("room_type", "");
+    setValue("price", "");
+    setValue("availability", "");
+    setValue("Hotels", "");
+    setImages([]);
+    setImagePreviews([]);
+  };
+
+  const dispatch = useDispatch();
 
   const onSubmit = async (data) => {
     const formData = new FormData();
@@ -57,16 +61,21 @@ const emptyForm = ()  => {
     });
 
     try {
-      const response = await axios.post("http://localhost:8000/api/rooms", formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
+      const response = await axios.post(
+        "http://localhost:8000/api/rooms",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         }
-      });
+      );
       console.log(response.data);
       swal("Good job!", "Room created successfully!", "success");
+      console.log("nice",response.data.room);
+      dispatch(addRoom(response.data.room)); 
       closeModel();
-      emptyForm()
-      
+      emptyForm();
     } catch (error) {
       console.error(error);
       swal("Error", "Failed to create room", "error");
@@ -83,7 +92,9 @@ const emptyForm = ()  => {
 
   const handleRemoveImage = (index) => {
     setImages((prevImages) => prevImages.filter((_, i) => i !== index));
-    setImagePreviews((prevPreviews) => prevPreviews.filter((_, i) => i !== index));
+    setImagePreviews((prevPreviews) =>
+      prevPreviews.filter((_, i) => i !== index)
+    );
   };
 
   const [hotels, setHotels] = useState([]);
