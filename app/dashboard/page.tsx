@@ -4,7 +4,6 @@ import Stats from "@/src/components/dashboard/Stats";
 export default function Dashboard() {
   return (
     <>
-    
       <Nav />
       <div className='flex flex-col h-screen '>
         <Stats />

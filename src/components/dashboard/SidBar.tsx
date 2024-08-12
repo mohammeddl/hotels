@@ -22,13 +22,9 @@ export default function SidBar() {
             <HotelIcon className='w-6 h-6' />
             Rooms
           </Link>
-          <Link className='flex items-center gap-2 font-medium' href='#'>
+          <Link className='flex items-center gap-2 font-medium' href='hotels'>
             <BookIcon className='w-6 h-6' />
-            Bookings
-          </Link>
-          <Link className='flex items-center gap-2 font-medium' href='#'>
-            <ViewIcon className='w-6 h-6' />
-            Reports
+            hotels
           </Link>
           <Link className='flex items-center gap-2 font-medium' href='#'>
             <SettingsIcon className='w-6 h-6' />

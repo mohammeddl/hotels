@@ -44,7 +44,7 @@ class RoomController extends Controller
             }
 
             $room->load('images');
-            
+
     
             return response()->json(['room'=>$room,'message' => 'Room created successfully'], 201);
         } catch (\Exception $e) {
@@ -81,7 +81,8 @@ class RoomController extends Controller
                     ]);
                 }
             }
-            return response()->json(['message' => 'Room updated successfully'], 200);
+            $room->load('images');
+            return response()->json(['room'=>$room,'message' => 'Room updated successfully'], 200);
           }
         }catch(\Exception $e){
             return response()->json(['message' => $e->getMessage()], 500);

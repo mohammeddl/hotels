@@ -22,6 +22,8 @@ import Image from "next/image";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import swal from "sweetalert";
+import { useDispatch } from "react-redux";
+import { modifyRoom } from "@/src/redux/slices/RoomSlice";
 
 export default function RoomModifModal({ isModif, closeModel, room }) {
   const {
@@ -34,6 +36,8 @@ export default function RoomModifModal({ isModif, closeModel, room }) {
   const [images, setImages] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
   const [hotels, setHotels] = useState([]);
+
+  const dispatch = useDispatch();
 
   const onSubmit = async (data) => {
     const formData = new FormData();
@@ -58,8 +62,8 @@ export default function RoomModifModal({ isModif, closeModel, room }) {
           },
         }
       );
-      console.log(response.data);
       swal("Good job!", "Room updated successfully!", "success");
+      dispatch(modifyRoom(response.data.room));
       closeModel();
     } catch (error) {
       console.error(error);

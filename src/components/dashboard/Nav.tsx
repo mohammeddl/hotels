@@ -10,17 +10,14 @@ export default function Nav() {
           <h1 className='text-xl font-bold'>Acme Hotel</h1>
         </div>
         <nav className='flex items-center gap-4'>
-          <Link className='hover:underline' href='#'>
+          <Link className='hover:underline' href='/dashboard'>
             Dashboard
           </Link>
-          <Link className='hover:underline' href='#'>
+          <Link className='hover:underline' href='/rooms'>
             Rooms
           </Link>
-          <Link className='hover:underline' href='#'>
-            Bookings
-          </Link>
-          <Link className='hover:underline' href='#'>
-            Reports
+          <Link className='hover:underline' href='/hotels'>
+            hotels
           </Link>
           <Link className='hover:underline' href='#'>
             Settings
