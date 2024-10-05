@@ -100,7 +100,7 @@ export default function RoomModal({ isOpen, closeModel }) {
   const [hotels, setHotels] = useState([]);
   const getHotels = async () => {
     const response = await axios.get("http://localhost:8000/api/hotels");
-    setHotels(response.data);
+    setHotels(response.data.hotels);
   };
   useEffect(() => {
     getHotels();

@@ -1,4 +1,8 @@
 'use client';
+
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import axios from "axios";
 import {
   CardTitle,
   CardDescription,
@@ -12,101 +16,164 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
-import { useSelector } from "react-redux";
-
-
+import Image from "next/image";
+import { motion } from "framer-motion";
+import imageLogin from "@/src/assets/imageLogin.png"; 
+import { useRouter } from "next/navigation"; 
+import { setUser } from "@/src/redux/slices/userSlice";
 
 export default function Login() {
-  
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post("http://localhost:8000/api/login", {
+        email,
+        password,
+      });
+
+      if (response.status === 200) {
+        const { token, user } = response.data;
+
+        dispatch(setUser({ user, token }));
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(user));
+        router.push("/");
+      } else {
+        setErrorMessage("Invalid credentials");
+      }
+    } catch (error) {
+      setErrorMessage("Login failed. Please try again.");
+    }
+  };
 
   return (
-    
-    <div className='grid min-h-[100dvh] grid-cols-1 lg:grid-cols-2'>
-      <div className='flex flex-col items-center justify-center bg-gray-100 p-8 dark:bg-gray-800 lg:p-12'>
-        <div className='flex items-center space-x-2'>
-          <HotelIcon className='h-8 w-8 text-gray-900 dark:text-gray-50' />
-          <h1 className='text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-50'>
-            Acme Hotels
-          </h1>
-        </div>
-        <p className='mt-4 text-lg text-gray-500 dark:text-gray-400'>
-          Discover the best hotels for your next adventure.
-        </p>
-      </div>
-      <div className='flex items-center justify-center p-8 lg:p-12'>
-        <Card className='w-full max-w-md'>
-          <CardHeader className='space-y-1'>
-            <CardTitle className='text-2xl'>Sign in to your account</CardTitle>
+    <div className='grid min-h-screen grid-cols-1 lg:grid-cols-2 bg-gray-100' style={{ height: '100vh' }}>
+      {/* Left side with GIF */}
+      <motion.div 
+        className='flex items-center justify-center bg-gray-200'
+        initial={{ opacity: 0, x: -100 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 1 }}
+        style={{ height: '100vh' }}
+      >
+        <Image
+          src={imageLogin} 
+          alt='Hotels GIF'
+          width={400}
+          height={500}
+          className=" w-full " 
+        />
+      </motion.div>
+
+      <motion.div 
+        className='flex items-center justify-center p-8 lg:p-12 bg-white'
+        initial={{ opacity: 0, x: 100 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 1 }}
+        style={{ height: '100vh' }}
+      >
+        <Card className='w-full max-w-md shadow-lg'>
+          <CardHeader className='space-y-1 text-center'>
+            <CardTitle className='text-3xl font-bold'>Welcome Back!</CardTitle>
             <CardDescription>
-              Enter your email and password below to access your account.
+              Please enter your email and password to log in.
             </CardDescription>
           </CardHeader>
-          <CardContent className='space-y-4'>
-            <div className='grid gap-2'>
-              <Label htmlFor='email'>Email</Label>
-              <Input id='email' placeholder='m@example.com' type='email' />
-            </div>
-            <div className='grid gap-2'>
-              <div className='flex items-center justify-between'>
-                <Label htmlFor='password'>Password</Label>
-                <Link
-                  className='text-sm font-medium text-gray-900 hover:underline dark:text-gray-50'
-                  href='#'>
-                  Forgot password?
-                </Link>
-              </div>
-              <Input id='password' type='password' />
-            </div>
-            <div className='flex items-center space-x-2'>
-              <Checkbox id='remember' />
-              <Label className='text-sm font-medium' htmlFor='remember'>
-                Remember me
-              </Label>
-            </div>
-          </CardContent>
-          <CardFooter>
-            <Button className='w-full' type='submit'>
-              Sign in
-            </Button>
-            <div className='mt-4 text-center text-sm'>
-              Don't have an account?
-              <Link
-                className='font-medium text-gray-900 hover:underline dark:text-gray-50'
-                href='#'>
-                Sign up
-              </Link>
-            </div>
-          </CardFooter>
-        </Card>
-      </div>
-    </div>
-    
-  );
-}
+          
+          <form onSubmit={handleSubmit}>
+            <CardContent className='space-y-4'>
+              {/* Email input */}
+              <motion.div 
+                className='grid gap-2'
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+              >
+                <Label htmlFor='email'>Email</Label>
+                <Input
+                  id='email'
+                  placeholder='you@example.com'
+                  type='email'
+                  className='transition-all hover:bg-gray-50 focus:ring-2 focus:ring-teal-500'
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </motion.div>
 
-function HotelIcon(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      {...props}
-      xmlns='http://www.w3.org/2000/svg'
-      width='24'
-      height='24'
-      viewBox='0 0 24 24'
-      fill='none'
-      stroke='currentColor'
-      strokeWidth='2'
-      strokeLinecap='round'
-      strokeLinejoin='round'>
-      <path d='M10 22v-6.57' />
-      <path d='M12 11h.01' />
-      <path d='M12 7h.01' />
-      <path d='M14 15.43V22' />
-      <path d='M15 16a5 5 0 0 0-6 0' />
-      <path d='M16 11h.01' />
-      <path d='M16 7h.01' />
-      <path d='M8 11h.01' />
-      <path d='M8 7h.01' />
-      <rect x='4' y='2' width='16' height='20' rx='2' />
-    </svg>
+              {/* Password input */}
+              <motion.div 
+                className='grid gap-2'
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+              >
+                <div className='flex items-center justify-between'>
+                  <Label htmlFor='password'>Password</Label>
+                  <Link className='text-sm font-medium text-teal-600 hover:underline' href='#'>
+                    Forgot password?
+                  </Link>
+                </div>
+                <Input
+                  id='password'
+                  type='password'
+                  className='transition-all hover:bg-gray-50 focus:ring-2 focus:ring-teal-500'
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </motion.div>
+
+              {/* Remember me */}
+              <motion.div 
+                className='flex items-center space-x-2'
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+              >
+                <Checkbox id='remember' />
+                <Label className='text-sm font-medium' htmlFor='remember'>
+                  Remember me
+                </Label>
+              </motion.div>
+
+              {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+            </CardContent>
+
+            <CardFooter>
+              {/* Sign in button */}
+              <motion.div 
+                className='w-full'
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+              >
+                <Button className='w-full bg-teal-500 hover:bg-teal-600 transition-all hover:scale-105 focus:ring-2 focus:ring-teal-600' type='submit'>
+                  Sign in
+                </Button>
+              </motion.div>
+              
+              {/* Signup link */}
+              <motion.div 
+                className='mt-4 text-center text-sm'
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 }}
+              >
+                Don&apos;t have an account?&nbsp;
+                <Link className='font-medium text-teal-600 hover:underline' href='#'>
+                  Sign up
+                </Link>
+              </motion.div>
+            </CardFooter>
+          </form>
+        </Card>
+      </motion.div>
+    </div>
   );
 }

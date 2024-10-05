@@ -89,12 +89,15 @@ export default function Destination() {
       const response = await axios.get(
         "https://hotels-com-provider.p.rapidapi.com/v2/regions",
         {
-          params: { query: "Maroc", domain: "AE", locale: "en_GB" },
-          headers: {
-            "X-RapidAPI-Key":
-              "adc18f9265msha05378245216634p16ee9fjsnc5363fe7309b",
-            "X-RapidAPI-Host": "hotels-com-provider.p.rapidapi.com",
+          params: {
+            query: "Maroc",
+            domain: "AR",
+            locale: "es_AR",
           },
+          headers: {
+            'x-rapidapi-key': 'adc18f9265msha05378245216634p16ee9fjsnc5363fe7309b',
+            'x-rapidapi-host': 'hotels-com-provider.p.rapidapi.com'
+          }
         }
       );
       console.log("API response:", response.data.data);
